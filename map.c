@@ -106,7 +106,9 @@ int getPlayerStartY()
     Checks if the player can move on to the space given
 */
 int isAvailable(int x, int y) 
-{
-   int test = mvinch(y,x);
-   return ( test == BOUNDARY );
+{   
+   char test;   
+ 
+   test = mvinch(y,x);
+   return ( test == PATH );
 }
