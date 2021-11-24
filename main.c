@@ -27,7 +27,7 @@ int main(void)
 
 
  //Still working on player movement   
- /*  
+ /* 
     do
     {   
         mvaddch(y,x,PLAYER);        
@@ -79,8 +79,8 @@ int main(void)
                         break;
             }
         }while( ch != 'q' || ch != 'Q' );  
-
-   */   
+*/
+      
      getch(); 
      //Next Map
      clear();
