@@ -4,6 +4,7 @@
 #define MP_COLS 5
 #define MP_BLOCKSIZE 7
 #define MP_ROADSIZE 2
+#define PLAYER 'P'
 
 int main(void)
 {
@@ -26,8 +27,10 @@ int main(void)
 
 
  //Still working on player movement   
- /*   do
-    {
+ /*  
+    do
+    {   
+        mvaddch(y,x,PLAYER);        
         move(y,x);
        
         refresh();
@@ -75,9 +78,9 @@ int main(void)
                         }
                         break;
             }
-        }while( ch != 'q' || ch != 'Q' );  */  
+        }while( ch != 'q' || ch != 'Q' );  
 
-      
+   */   
      getch(); 
      //Next Map
      clear();

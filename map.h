@@ -11,6 +11,7 @@ int getNodeCoordinate(int);
 int getPlayerStartX();
 int getPlayerStartY();
 int isAvailable(int,int);
+int atWork(char);
 //int checkWin();
 
 #endif /*MAP_H*/

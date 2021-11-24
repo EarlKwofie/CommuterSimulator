@@ -23,8 +23,6 @@ int spacing, mp_border, mp_block;
  */
 void drawMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 {
-    
-    int tempGrid[blocks_row][blocks_col];
     int x,y;
     
     //determines intermediate space between the center points of each block
@@ -84,6 +82,10 @@ void setPlayer(int blocks_row, int blocks_col)
     mvaddch(getNodeCoordinate(workLocation.y), getNodeCoordinate(workLocation.x), WORK);
 }
 
+int atWork(char space)
+{
+    return (space == 'W');
+}
 
 int getNodeCoordinate(int coordinate)
 {
