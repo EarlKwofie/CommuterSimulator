@@ -6,7 +6,11 @@
 #include <stdlib.h>
 
 void drawMap(int,int,int,int);
-void setPlayer(int,int);
+void setPlayer();
+
+int getBoundaryX();
+int getBoundaryY();
+
 int getNodeCoordinate(int);
 int getPlayerStartX();
 int getPlayerStartY();

@@ -18,7 +18,7 @@ int main(void)
     drawMap(MP_BLOCKSIZE,MP_ROADSIZE,MP_ROWS,MP_COLS);
     setPlayer(MP_ROWS,MP_COLS);
     
-    
+ /*   
     int max_X = (MP_COLS * MP_BLOCKSIZE) + ((1 + MP_COLS)*(MP_ROADSIZE));
     int max_Y = (MP_ROWS * MP_BLOCKSIZE) + ((1 + MP_ROWS)*(MP_ROADSIZE)); 
     int x = getPlayerStartX();
@@ -27,9 +27,8 @@ int main(void)
 
 
  //Still working on player movement   
- /* 
-    do
-    {   
+   do
+   {   
         mvaddch(y,x,PLAYER);        
         move(y,x);
        
@@ -78,21 +77,7 @@ int main(void)
                         }
                         break;
             }
-        }while( ch != 'q' || ch != 'Q' );  
-*/
-      
-     getch(); 
-     //Next Map
-     clear();
-     drawMap(MP_BLOCKSIZE,MP_ROADSIZE,MP_ROWS,MP_COLS);
-     setPlayer(MP_ROWS,MP_COLS);
-     
+        }while( ch != 'q' || ch != 'Q' );  */ 
      getch();
-     //Next Map
-     clear();
-     drawMap(MP_BLOCKSIZE,MP_ROADSIZE,MP_ROWS,MP_COLS);
-     setPlayer(MP_ROWS,MP_COLS);
-        
-     getch();  
      endwin();
 }
