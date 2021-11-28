@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+void setName(char* name);
 char* getName();
 void setTime(int);
 void setHealth(int);
