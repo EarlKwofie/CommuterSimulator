@@ -29,6 +29,7 @@ int main(void)
     int ch;
     int x = 0;
     int y = 0;
+    int time = 0;
       
     do
     {
@@ -83,6 +84,10 @@ int main(void)
             break;
         }
 
+        time++;
+        attron(COLOR_PAIR(1));
+        mvprintw(getBoundaryY() + 2, 0, "Time Allotted: %d", time);
+        attroff(COLOR_PAIR(1));
     }while((ch != 'q') && (ch !='Q'));
   
     endwin();
