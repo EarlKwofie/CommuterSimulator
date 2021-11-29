@@ -13,6 +13,7 @@ struct Point
 
 void setMap(int,int,int,int);
 void setPlayer();
+void setNodeCoordinates(int,int);
 
 int getBoundaryX();
 int getBoundaryY();

@@ -4,6 +4,9 @@
 #include <curses.h>
 #include <math.h>
 
+#define MAX_ROWS 10
+#define MAX_COLUMNS 10
+
 #define PATH ' '
 #define BASE '~'
 #define BOUNDARY '#'
@@ -12,9 +15,12 @@
 
 #define BOUNDARY_C 1
 #define ROAD_C 2
+#define UI_TIME 3
 
 
 struct Point origin, bounds, playerLocation, workLocation, playerCoordinates, workCoordinates;
+
+struct Point nodeCoordinates[MAX_ROWS][MAX_COLUMNS];
 
 int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols, mp_road;
 
@@ -29,9 +35,11 @@ int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols, mp_road;
 
 void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 { 
+    setNodeCoordinates(blocks_row, blocks_col);
     start_color();
     init_pair(BOUNDARY_C, COLOR_WHITE, COLOR_WHITE);  
     init_pair(ROAD_C, COLOR_WHITE, COLOR_BLUE);
+    init_pair(UI_TIME, COLOR_BLACK, COLOR_RED);
 
     //determines intermediate space between the center points of each block
     int btwn_top = round(blockWidth/2) + roadWidth;
@@ -157,6 +165,28 @@ bool isAvailable(int x, int y)
  
    test = mvinch(y,x);
    return ((test & A_CHARTEXT) == PATH) || ((test & A_CHARTEXT) == BASE) ;
+}
+
+/*
+    Assigns coordinates to the possible spawn nodes
+*/
+void setNodeCoordinates(int rows, int columns)
+{       
+    if( rows <= 10 && columns <= 10)
+    {
+       for(int i = 0; i < rows; i++)
+       {
+            for(int j = 0; j < columns; j++)
+            {
+                nodeCoordinates[i][j].x = getNodeCoordinate(j);
+                nodeCoordinates[i][j].y = getNodeCoordinate(i);
+            }
+       }
+    }
+    else
+    {
+    }
+      
 }
 
 /*

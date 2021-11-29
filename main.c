@@ -85,9 +85,9 @@ int main(void)
             }
             break;
         }
-        attron(COLOR_PAIR(1));
+        attron(COLOR_PAIR(3));
         mvprintw(getBoundaryY() + 2, 0, "Time Allotted: %d", time);
-        attroff(COLOR_PAIR(1));
+        attroff(COLOR_PAIR(3));
     }while((ch != 'q') && (ch !='Q'));
   
     endwin();
