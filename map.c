@@ -30,7 +30,7 @@ int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols, mp_road;
 void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 { 
     start_color();
-    init_pair(BOUNDARY_C, COLOR_BLACK, COLOR_RED);  
+    init_pair(BOUNDARY_C, COLOR_WHITE, COLOR_WHITE);  
     init_pair(ROAD_C, COLOR_WHITE, COLOR_BLUE);
 
     //determines intermediate space between the center points of each block

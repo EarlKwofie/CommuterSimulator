@@ -2,15 +2,13 @@
 
 #define MP_ROWS 3
 #define MP_COLS 3
-#define MP_ROADWIDTH 2
-#define MP_BLOCKWIDTH 3
+#define MP_ROADWIDTH 3
+#define MP_BLOCKWIDTH 7
 
 #define BACKGROUND ' '
 #define BORDER '#'
 
 WINDOW *gameScreen;
-
-bool isAvailable(int,int);
 
 int main(void)
 {
@@ -49,6 +47,7 @@ int main(void)
                 mvaddch(y, x, BACKGROUND);
                 attroff(COLOR_PAIR(2));
                 y = y - 1;
+                time++;
             }
             break;
         case KEY_DOWN:
@@ -60,31 +59,32 @@ int main(void)
                 mvaddch(y, x, BACKGROUND);
                 attroff(COLOR_PAIR(2));
                 y = y + 1;
+                time++;
             }   
             break;
         case KEY_LEFT:
         case 'a':
         case 'A':
             if ((x > 0) && isAvailable(y, x - 1)) {
-            attron(COLOR_PAIR(2));
-            mvaddch(y, x, BACKGROUND);
-            attroff(COLOR_PAIR(2));
-            x = x - 1;
+                 attron(COLOR_PAIR(2));
+                 mvaddch(y, x, BACKGROUND);
+                 attroff(COLOR_PAIR(2));
+                 x = x - 1;
+                 time++;
             }
             break;
         case KEY_RIGHT:
         case 'd':
         case 'D':
             if ((x < getBoundaryX()) && isAvailable(y, x + 1)) {
-            attron(COLOR_PAIR(2));
-            mvaddch(y, x, BACKGROUND);
-            attroff(COLOR_PAIR(2));
-            x = x + 1;
+                 attron(COLOR_PAIR(2));
+                 mvaddch(y, x, BACKGROUND);
+                 attroff(COLOR_PAIR(2));
+                 x = x + 1;
+                 time++;
             }
             break;
         }
-
-        time++;
         attron(COLOR_PAIR(1));
         mvprintw(getBoundaryY() + 2, 0, "Time Allotted: %d", time);
         attroff(COLOR_PAIR(1));
