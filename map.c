@@ -4,18 +4,19 @@
 #include <curses.h>
 #include <math.h>
 
-#define MAP_WIDTH 50
-#define MAP_HEIGHT 50
 #define PATH ' '
-#define BOUNDARY '~'
+#define BASE '~'
+#define BOUNDARY '#'
 #define PLAYER 'P'
 #define WORK 'W'
 
-struct Point{
-    int x,y;
-} origin, bounds, playerLocation, workLocation;
+#define BOUNDARY_C 1
+#define ROAD_C 2
 
-int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols;
+
+struct Point origin, bounds, playerLocation, workLocation, playerCoordinates, workCoordinates;
+
+int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols, mp_road;
 
 /*
     Generates a the gridded map for the user, and calculates its size
@@ -24,11 +25,14 @@ int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols;
         blocks_row - amount of blocks in a row
         blocks_column - amount of blocks in a column    
         
- */
+*/
 
-void drawMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
-{   
-   
+void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
+{ 
+    start_color();
+    init_pair(BOUNDARY_C, COLOR_BLACK, COLOR_RED);  
+    init_pair(ROAD_C, COLOR_WHITE, COLOR_BLUE);
+
     //determines intermediate space between the center points of each block
     int btwn_top = round(blockWidth/2) + roadWidth;
     
@@ -38,7 +42,7 @@ void drawMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
     mp_rows = blocks_row;
     mp_cols = blocks_col;
     spacing = roadWidth + blockWidth;
-    
+    mp_road = roadWidth;
     
     //determines the outermost spawn points for the user
     bounds.x = btwn_top + ((mp_cols - 1) * spacing);
@@ -50,21 +54,44 @@ void drawMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
     //determines the outermost boundary of play space
     mp_max_x = (spacing * blocks_col) + roadWidth;
     mp_max_y = (spacing * blocks_row) + roadWidth;
-
-    WINDOW *gameWin;
-    gameWin = newwin(mp_max_y, mp_max_x, 0, 0);
      
-    //creates a series of blocks representing the city blocks
+    /*
+        Creates a series of blocks representing the city blocks
+        Also determines at random where the player and the destination that the player and the player goal is located.     
+    */
+
+    attron(COLOR_PAIR(ROAD_C));
+    for(int i = 0; i <= mp_max_x; i++)
+    {
+        mvvline(0,i,PATH,mp_max_y);   
+    }
+    attroff(COLOR_PAIR(ROAD_C));
+   
     for(int i = mp_border; i <= bounds.x; i+=spacing)
     {
         for(int j = mp_border; j <= bounds.y; j+=spacing)
-        {
-           for(int k = 0; k < mp_block; k++)
-                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k,BOUNDARY,mp_block);}        
+        {   
+           if( i == playerCoordinates.y && j == playerCoordinates.x )
+           { 
+                for(int k = 0; k < mp_block; k++)
+                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k, BASE ,mp_block);}
+           }
+           else if( i == workCoordinates.y && j == workCoordinates.x )
+           {
+                for(int k = 0; k < mp_block; k++)
+                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k, BASE ,mp_block);}
+           }
+           else
+           {    
+                attron(COLOR_PAIR(BOUNDARY_C));
+                for(int k = 0; k < mp_block; k++)
+                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k,BOUNDARY,mp_block);}
+                attroff(COLOR_PAIR(BOUNDARY_C));
+           }            
         }
-    }
-
-    wrefresh(gameWin);    
+    }  
+    
+    mvaddch(getNodeCoordinate(workLocation.y), getNodeCoordinate(workLocation.x), WORK);     
 }
 
 /*
@@ -77,6 +104,9 @@ void setPlayer()
     playerLocation.y = rand() % mp_rows;
     playerLocation.x = rand() % mp_cols;
     
+    playerCoordinates.x = getNodeCoordinate(playerLocation.x);
+    playerCoordinates.y = getNodeCoordinate(playerLocation.y);
+    
         do
         {
 
@@ -84,21 +114,15 @@ void setPlayer()
             workLocation.y = rand() % mp_cols;
 
         }while(playerLocation.y == workLocation.y && playerLocation.x == workLocation.x);
-     
-    mvvline(getNodeCoordinate(playerLocation.y)-1, getNodeCoordinate(playerLocation.x), PATH, round(mp_block/2) + 2);
-    mvvline(getNodeCoordinate(playerLocation.y)-1, getNodeCoordinate(playerLocation.x)-1, PATH, round(mp_block/2));
-    mvvline(getNodeCoordinate(playerLocation.y)-1, getNodeCoordinate(playerLocation.x)+1, PATH, round(mp_block/2));
-    mvaddch(getNodeCoordinate(playerLocation.y), getNodeCoordinate(playerLocation.x), PLAYER);
-    
-    mvvline(getNodeCoordinate(workLocation.y)-1, getNodeCoordinate(workLocation.x), PATH, round(mp_block/2) + 2);
-    mvvline(getNodeCoordinate(workLocation.y)-1, getNodeCoordinate(workLocation.x)-1, PATH, round(mp_block/2));
-    mvvline(getNodeCoordinate(workLocation.y)-1, getNodeCoordinate(workLocation.x)+1, PATH, round(mp_block/2));
-    mvaddch(getNodeCoordinate(workLocation.y), getNodeCoordinate(workLocation.x), WORK);
+        
+    workCoordinates.x = getNodeCoordinate(workLocation.x);
+    workCoordinates.y = getNodeCoordinate(workLocation.y);
 }
 
-
-
-int atWork(char space)
+/*
+    Determines Whether the player has made it to the destination or not 
+*/
+bool atWork(char space)
 {
     return (space == 'W');
 }
@@ -127,12 +151,12 @@ int getPlayerStartY()
 /*
     Checks if the player can move on to the space given
 */
-int isAvailable(int x, int y) 
+bool isAvailable(int x, int y) 
 {   
-   char test;   
+   int test;   
  
    test = mvinch(y,x);
-   return ( test == PATH );
+   return ((test & A_CHARTEXT) == PATH) || ((test & A_CHARTEXT) == BASE) ;
 }
 
 /*

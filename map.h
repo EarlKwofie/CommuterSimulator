@@ -5,8 +5,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void drawMap(int,int,int,int);
+struct Point
+{
+    int x;
+    int y;
+};
+
+void setMap(int,int,int,int);
 void setPlayer();
+void movePlayer();
 
 int getBoundaryX();
 int getBoundaryY();
@@ -14,8 +21,8 @@ int getBoundaryY();
 int getNodeCoordinate(int);
 int getPlayerStartX();
 int getPlayerStartY();
-int isAvailable(int,int);
-int atWork(char);
+bool isAvailable(int,int);
+bool atWork(char);
 //int checkWin();
 
 #endif /*MAP_H*/
