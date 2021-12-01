@@ -39,8 +39,8 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
     start_color();
     init_pair(BOUNDARY_C, COLOR_WHITE, COLOR_WHITE);  
     init_pair(ROAD_C, COLOR_WHITE, COLOR_BLUE);
-    init_pair(UI_TIME, COLOR_BLACK, COLOR_RED);
-
+    init_pair(UI_TIME, COLOR_BLACK, COLOR_RED);  
+  
     //determines intermediate space between the center points of each block
     int btwn_top = round(blockWidth/2) + roadWidth;
     
@@ -67,6 +67,9 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
         Creates a series of blocks representing the city blocks
         Also determines at random where the player and the destination that the player and the player goal is located.     
     */
+    
+    //Establish player spawn and player goal
+    setPlayer();
 
     attron(COLOR_PAIR(ROAD_C));
     for(int i = 0; i <= mp_max_x; i++)
@@ -79,22 +82,34 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
     {
         for(int j = mp_border; j <= bounds.y; j+=spacing)
         {   
-           if( i == playerCoordinates.y && j == playerCoordinates.x )
+         /*if( i == playerCoordinates.y && j == playerCoordinates.x )
            { 
                 for(int k = 0; k < mp_block; k++)
-                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k, BASE ,mp_block);}
-           }
-           else if( i == workCoordinates.y && j == workCoordinates.x )
+                { 
+                  attron(COLOR_PAIR(ROAD_C));
+                  mvvline(i-round(mp_block/2),j-round(mp_block/2)+k, PATH ,mp_block);
+                  attroff(COLOR_PAIR(ROAD_C)); 
+                }
+           }*/
+           if( (i == workCoordinates.y && j == workCoordinates.x) /* || (i == workCoordinates.y && j == workCoordinates.x) */ )
            {
                 for(int k = 0; k < mp_block; k++)
-                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k, BASE ,mp_block);}
+                {
+                    
+                    attron(COLOR_PAIR(BOUNDARY_C)); 
+                    mvvline(j-round(mp_block/2),i-round(mp_block/2)+k, PATH ,mp_block);
+                    attroff(COLOR_PAIR(BOUNDARY_C));
+                    
+                }
            }
            else
-           {    
-                attron(COLOR_PAIR(BOUNDARY_C));
+           {
                 for(int k = 0; k < mp_block; k++)
-                { mvvline(i-round(mp_block/2),j-round(mp_block/2)+k,BOUNDARY,mp_block);}
-                attroff(COLOR_PAIR(BOUNDARY_C));
+                {
+                    attron(COLOR_PAIR(BOUNDARY_C));
+                    mvvline(i-round(mp_block/2),j-round(mp_block/2)+k,BOUNDARY,mp_block);
+                    attroff(COLOR_PAIR(BOUNDARY_C));
+                }
            }            
         }
     }  
@@ -118,21 +133,21 @@ void setPlayer()
         do
         {
 
-            workLocation.x = rand() % mp_rows;
-            workLocation.y = rand() % mp_cols;
+            workLocation.x = rand() % mp_cols;
+            workLocation.y = rand() % mp_rows;
 
         }while(playerLocation.y == workLocation.y && playerLocation.x == workLocation.x);
         
     workCoordinates.x = getNodeCoordinate(workLocation.x);
-    workCoordinates.y = getNodeCoordinate(workLocation.y);
+    workCoordinates.y= getNodeCoordinate(workLocation.y);
 }
 
 /*
     Determines Whether the player has made it to the destination or not 
 */
-bool atWork(char space)
+bool atWork(int x, int y)
 {
-    return (space == 'W');
+    return (mvinch(y,x) == 'W');
 }
 
 int getNodeCoordinate(int coordinate)

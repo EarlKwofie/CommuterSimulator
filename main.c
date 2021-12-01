@@ -88,7 +88,9 @@ int main(void)
         attron(COLOR_PAIR(3));
         mvprintw(getBoundaryY() + 2, 0, "Time Allotted: %d", time);
         attroff(COLOR_PAIR(3));
-    }while((ch != 'q') && (ch !='Q'));
-  
+    }while((ch != 'q') && (ch !='Q') && !(atWork(x,y)));
+    
+    mvprintw(getBoundaryY() + 4, 0, "You got to work safely in %d steps.\nPress any key to exit", time); 
+    getch();
     endwin();
 }

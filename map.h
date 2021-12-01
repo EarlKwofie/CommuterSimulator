@@ -21,8 +21,9 @@ int getBoundaryY();
 int getNodeCoordinate(int);
 int getPlayerStartX();
 int getPlayerStartY();
+
 bool isAvailable(int,int);
-bool atWork(char);
+bool atWork(int,int);
 //int checkWin();
 
 #endif /*MAP_H*/
