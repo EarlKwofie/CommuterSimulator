@@ -120,6 +120,11 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 /*
     Determines a random location to place the player on the map
     Also determines the user destination, or the place the player works
+        
+        NOTE: Currently, there seems to be an issue with the way that the coordinates of the player location and the work location are setup.
+        - it seems to effect the way that the placement of characters are set up,
+        - maybe pointers should be used instead to be more precise about where things are on the map?
+        - maybe theres a problem in the draw map function.
 */
 void setPlayer()
 {

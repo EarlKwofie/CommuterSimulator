@@ -1,4 +1,5 @@
 #include "map.h"
+#include "player.h"
 
 #define MP_ROWS 3
 #define MP_COLS 3

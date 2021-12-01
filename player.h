@@ -5,10 +5,16 @@
 #include <stdlib.h>
 #include <math.h>
 
+enum Scenarios{COLLISION, COFFEE, TRAFFIC};
+enum Scenarios event;
+
 void setName(char* name);
+
 char* getName();
+
 void setTime(int);
 void setHealth(int);
+
 int getTime();
 int getHealth();
 
