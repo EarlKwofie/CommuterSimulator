@@ -37,7 +37,7 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 { 
     setNodeCoordinates(blocks_row, blocks_col);
     start_color();
-    init_pair(BOUNDARY_C, COLOR_WHITE, COLOR_WHITE);  
+    init_pair(BOUNDARY_C, COLOR_YELLOW, COLOR_WHITE);  
     init_pair(ROAD_C, COLOR_WHITE, COLOR_BLUE);
     init_pair(UI_TIME, COLOR_BLACK, COLOR_RED);  
   
@@ -91,17 +91,18 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
                   attroff(COLOR_PAIR(ROAD_C)); 
                 }
            }*/
-           if( (i == workCoordinates.y && j == workCoordinates.x) /* || (i == workCoordinates.y && j == workCoordinates.x) */ )
+           if(i == workCoordinates.x && j == workCoordinates.y)
            {
                 for(int k = 0; k < mp_block; k++)
                 {
                     
                     attron(COLOR_PAIR(BOUNDARY_C)); 
-                    mvvline(j-round(mp_block/2),i-round(mp_block/2)+k, PATH ,mp_block);
+                    mvvline(j-round(mp_block/2),i-round(mp_block/2)+k, PATH  ,mp_block);
                     attroff(COLOR_PAIR(BOUNDARY_C));
                     
                 }
            }
+           
            else
            {
                 for(int k = 0; k < mp_block; k++)
@@ -129,19 +130,19 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 void setPlayer()
 {
     
-    playerLocation.y = rand() % mp_rows;
-    playerLocation.x = rand() % mp_cols;
+   /* playerLocation.y = rand() % mp_rows;
+      playerLocation.x = rand() % mp_cols;
     
     playerCoordinates.x = getNodeCoordinate(playerLocation.x);
-    playerCoordinates.y = getNodeCoordinate(playerLocation.y);
+    playerCoordinates.y = getNodeCoordinate(playerLocation.y); */
     
-        do
-        {
+       /* do
+        { */
 
             workLocation.x = rand() % mp_cols;
             workLocation.y = rand() % mp_rows;
 
-        }while(playerLocation.y == workLocation.y && playerLocation.x == workLocation.x);
+       /* }while(playerLocation.y == workLocation.y && playerLocation.x == workLocation.x); */
         
     workCoordinates.x = getNodeCoordinate(workLocation.x);
     workCoordinates.y= getNodeCoordinate(workLocation.y);
@@ -184,7 +185,7 @@ bool isAvailable(int x, int y)
    int test;   
  
    test = mvinch(y,x);
-   return ((test & A_CHARTEXT) == PATH) || ((test & A_CHARTEXT) == BASE) ;
+   return ((test & A_CHARTEXT) == PATH) || ((test & A_CHARTEXT) == BASE) || ((test & A_CHARTEXT) == WORK);
 }
 
 /*
