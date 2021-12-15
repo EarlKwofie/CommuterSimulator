@@ -16,6 +16,7 @@
 #define BOUNDARY_C 1
 #define ROAD_C 2
 #define UI_TIME 3
+#define ENEMIES 4
 
 
 struct Point origin, bounds, playerLocation, workLocation, playerCoordinates, workCoordinates;
@@ -25,6 +26,8 @@ struct Point nodeCoordinates[MAX_ROWS][MAX_COLUMNS];
 int spacing, mp_border, mp_block, mp_max_x, mp_max_y, mp_rows, mp_cols, mp_road;
 
 /*
+    Earl Kwofie:    
+
     Generates a the gridded map for the user, and calculates its size
         block_width - size of square grid modules (blocks)
         road_width - space between blocks
@@ -37,10 +40,11 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 { 
     setNodeCoordinates(blocks_row, blocks_col);
     start_color();
-    init_pair(BOUNDARY_C, COLOR_YELLOW, COLOR_WHITE);  
+    init_pair(BOUNDARY_C, COLOR_WHITE, COLOR_WHITE);  
     init_pair(ROAD_C, COLOR_WHITE, COLOR_BLUE);
     init_pair(UI_TIME, COLOR_BLACK, COLOR_RED);  
-  
+    init_pair(ENEMIES, COLOR_RED, COLOR_GREEN);    
+
     //determines intermediate space between the center points of each block
     int btwn_top = round(blockWidth/2) + roadWidth;
     
@@ -119,9 +123,55 @@ void setMap(int blockWidth, int roadWidth, int blocks_row, int blocks_col)
 }
 
 /*
+    Earl Kwofie
+    
+    Determines where and how many enemies will spawn depending on the time the player has and the difficulty they set
+    
+    The lower the variable dif, the higher the difficulty
+*/
+
+void setEnemies(int dif, int time)
+{
+    int e_origin = mp_block + round(1.3 * mp_road);
+    int e_terminal = mp_max_y - e_origin;
+    int time_start = time % dif; 
+
+    for(int i = e_origin; i <= e_terminal; i += spacing)
+    {
+        for(int j = time_start; j <= mp_max_x; j += dif)
+        { 
+             if(time_start == 0 && (j + dif - 1) <= mp_max_x)
+             {
+                  attron(COLOR_PAIR(ROAD_C));
+                  mvaddch(i,j+(dif-1),PATH);
+                  attroff(COLOR_PAIR(ROAD_C)); 
+
+                  attron(COLOR_PAIR(ENEMIES));
+                  mvaddch(i, j, '0');
+                  attroff(COLOR_PAIR(ENEMIES));
+             } 
+             else
+             {
+                  attron(COLOR_PAIR(ROAD_C));
+                  mvaddch(i, j-1, PATH);
+                  attroff(COLOR_PAIR(ROAD_C));
+
+                  attron(COLOR_PAIR(ENEMIES));
+                  mvaddch(i, j, '0');
+                  attroff(COLOR_PAIR(ENEMIES));
+             }        
+        
+        }
+    }
+}
+
+/*
+    Earl Kwofie:
+    
     Determines a random location to place the player on the map
     Also determines the user destination, or the place the player works
         
+    PROBLEM FIXED
         NOTE: Currently, there seems to be an issue with the way that the coordinates of the player location and the work location are setup.
         - it seems to effect the way that the placement of characters are set up,
         - maybe pointers should be used instead to be more precise about where things are on the map?
@@ -149,6 +199,8 @@ void setPlayer()
 }
 
 /*
+    Earl Kwofie:
+    
     Determines Whether the player has made it to the destination or not 
 */
 bool atWork(int x, int y)
@@ -162,6 +214,8 @@ int getNodeCoordinate(int coordinate)
 }
 
 /*
+    Earl Kwofie:    
+
     Returns the location of the player, primarily for the initial position
 */
 int getPlayerStartX()
@@ -170,6 +224,8 @@ int getPlayerStartX()
 }
 
 /*
+    Earl Kwofie:
+    
     Returns the location of the player, primarily for the initial position
 */
 int getPlayerStartY()
@@ -178,6 +234,8 @@ int getPlayerStartY()
 }
 
 /*
+    Earl Kwofie:     
+
     Checks if the player can move on to the space given
 */
 bool isAvailable(int x, int y) 
@@ -189,6 +247,8 @@ bool isAvailable(int x, int y)
 }
 
 /*
+    Earl Kwofie:    
+
     Assigns coordinates to the possible spawn nodes
 */
 void setNodeCoordinates(int rows, int columns)
@@ -211,6 +271,8 @@ void setNodeCoordinates(int rows, int columns)
 }
 
 /*
+   Earl Kwofie:    
+
    Gives you the X maximum boundary  
 */
 int getBoundaryX()
@@ -219,6 +281,8 @@ int getBoundaryX()
 }
 
 /*
+    Earl Kwofie:    
+
     Gives you the Y maximum boundary
 */
 int getBoundaryY()

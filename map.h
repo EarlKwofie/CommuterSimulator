@@ -14,6 +14,7 @@ struct Point
 void setMap(int,int,int,int);
 void setPlayer();
 void setNodeCoordinates(int,int);
+void setEnemies(int,int); 
 
 int getBoundaryX();
 int getBoundaryY();

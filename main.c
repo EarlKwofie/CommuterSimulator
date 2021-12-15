@@ -11,6 +11,8 @@
 
 WINDOW *gameScreen;
 
+//Earl Kwofie
+
 int main(void)
 {
     initscr();
@@ -86,12 +88,23 @@ int main(void)
             }
             break;
         }
+
         attron(COLOR_PAIR(3));
         mvprintw(getBoundaryY() + 2, 0, "Time Allotted: %d", time);
-        attroff(COLOR_PAIR(3));
+        attroff(COLOR_PAIR(3));      
+        
+        setEnemies(6,time);
+         
     }while((ch != 'q') && (ch !='Q') && !(atWork(x,y)));
     
-    mvprintw(getBoundaryY() + 4, 0, "You got to work safely in %d steps.\nPress any key to exit", time); 
+   if(atWork(x,y))
+   {
+        mvprintw(getBoundaryY() + 4, 0, "You got to work safely in %d steps.\nPress any key to exit", time);
+   }
+   else 
+   {
+        mvprintw(getBoundaryY() + 4, 0, "Press any key to confirm");
+   } 
     getch();
     endwin();
 }

@@ -8,7 +8,7 @@ APP=main
 CC=gcc
 CFLAGS=-Wall -Werror -ansi -std=c99 -g
 #CFLAGS=-Wall -Werror -ansi -pedantic-errors -std=c99 -g
-LDFLAGS=-lncurses
+LDFLAGS=-lncurses -lm
 SRCS=$(wildcard *.c)
 OBJS=$(SRCS:.c=.o)
 EXE=$(APP).exe
