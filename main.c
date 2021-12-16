@@ -102,6 +102,10 @@ int main(void)
    {
         mvprintw(getBoundaryY() + 4, 0, "You got to work safely in %d steps.\nPress any key to exit", time);
    }
+   else if(isDead(y,x))
+   {
+        mvprintw(getBoundaryY() + 4, 0, "You got to into a car accident in %d steps.\nPress any key to exit", time);
+   }
    else 
    {
         mvprintw(getBoundaryY() + 4, 0, "Press any key to confirm");
