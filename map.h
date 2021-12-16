@@ -24,6 +24,7 @@ int getPlayerStartX();
 int getPlayerStartY();
 
 bool isAvailable(int,int);
+bool isDead(int,int);
 bool atWork(int,int);
 //int checkWin();
 

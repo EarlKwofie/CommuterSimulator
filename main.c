@@ -92,10 +92,11 @@ int main(void)
         attron(COLOR_PAIR(3));
         mvprintw(getBoundaryY() + 2, 0, "Time Allotted: %d", time);
         attroff(COLOR_PAIR(3));      
-        
+       
         setEnemies(6,time);
+        setEnemies(6, time + 1);
          
-    }while((ch != 'q') && (ch !='Q') && !(atWork(x,y)));
+    }while((ch != 'q') && (ch !='Q') && !(atWork(x,y)) && !(isDead(y,x)));
     
    if(atWork(x,y))
    {

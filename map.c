@@ -165,6 +165,14 @@ void setEnemies(int dif, int time)
     }
 }
 
+bool isDead(int y, int x)
+{
+    char test = mvinch(y,x);
+    return (test & A_CHARTEXT) == '0'; 
+}
+
+
+
 /*
     Earl Kwofie:
     
@@ -243,7 +251,7 @@ bool isAvailable(int x, int y)
    int test;   
  
    test = mvinch(y,x);
-   return ((test & A_CHARTEXT) == PATH) || ((test & A_CHARTEXT) == BASE) || ((test & A_CHARTEXT) == WORK);
+   return ((test & A_CHARTEXT) == PATH) || ((test & A_CHARTEXT) == BASE) || ((test & A_CHARTEXT) == WORK) || ((test & A_CHARTEXT) == '0');
 }
 
 /*
