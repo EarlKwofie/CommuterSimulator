@@ -11,8 +11,7 @@ To convey this idea the primary elements we hope to use are:
 This primary mechanics that we hoping to use to convey this are
 
 1. Player Movement - non diagonal, due to the limitations of the grid
-2. Chance/ Dice - with each obstacle the player will have a chance to either be successful based on a random number generated 
-3. Player Stats (if time permits) - player can score points (or earn money) by sucessfully getting to work on time, and use that to increase chance
+2. Player Stats - player time is tracked to encorage the player to get to the goal in less steps 
 
 Code Used for Reference So Far:
 
