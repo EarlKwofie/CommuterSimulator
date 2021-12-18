@@ -9,7 +9,8 @@ int time;
 void setTime(int value)
 {}
 void setHealth(int value)
-{}
+{
+}
 int getHealth()
 {   
     return health; 
