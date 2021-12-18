@@ -1,4 +1,4 @@
-Final Project for CS102: Earl Kwofie, Ryan Cui
+Final Project for CS102: Earl Kwofie, Ryan Cui(TBA)
 
 //In Progress
 
